@@ -1,0 +1,17 @@
+import unittest
+class PierwszyTest(unittest.TestCase):
+    def setUp(self):
+        print('Przygotowanie testu')
+
+        # metody testowe zaczynaja sie od slowa 'test'
+    def testJakisTest(self):
+        print("test numer 1")
+
+    def testJakisTest2(self):
+        print("test numer 2")
+
+    def tearDown(self):
+        print('Konczenie testu')
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
