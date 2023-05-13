@@ -1,0 +1,24 @@
+https://codeshare.io/pq9v8x
+
+# In principio erat Verbum
+
+# Klasa jest szablonem
+# (przepisem)
+class Czlowiek:
+    gatunek = "homo sapiens"
+    # Metoda inicjalizująca (konstruktor)
+    def __init__(self, imie):
+        print("Powstaje Człowiek o imieniu", imie)
+        self.imie = imie
+        # adam.imie = "Adam"
+        # ewa.imie = "Ewa
+
+# Obiekt (odrysowany z szablonu)
+# danie (ugotowane na bazie przepisu)
+adam = Czlowiek("Adam")
+ewa = Czlowiek("Ewa")
+
+print(adam.gatunek)
+print(ewa.gatunek)
+print(adam.imie)
+print(ewa.imie)
