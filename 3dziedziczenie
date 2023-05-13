@@ -1,0 +1,36 @@
+# klasa jest szablonem (przepisem)
+class czlowiek:
+    gatunek ="homo sapiens"
+    # metoda inicjalizujca (konstruktor)
+    def __init__(self, imie):
+        print('Powstaje czlowiek! Ma na imie', imie)
+        self.imie = imie
+        # adam.imie = "Adam"
+        # ewa.imie = "Ewa"
+
+    def przedtaw_sie(self):
+        print("Mam na imie", self.imie)
+
+class dziecko(czlowiek):    # dziedziczenie, klasa dziecko dziedziczy cechy po klasie czlowiek
+    def przedstaw_sie(self):
+        print('Czesc, jestem', self.imie)
+
+    def baw_sie(self):
+        print('Zabawaaaaa')
+# z szablonu robimy obiekt (odrysowany z szblonu)
+# danie (ugotowane na bazie przepisu)
+adam = czlowiek("Adam")
+ewa = czlowiek("Ewa")
+kain = dziecko("Kain")
+print(adam)
+print(dir(adam)) #najpierw wykonuja sie instrukcje najbardziej w srodku nawiasow
+
+print(adam.imie)
+print(ewa.imie)
+print(adam.gatunek)
+print(ewa.gatunek)
+
+adam.przedtaw_sie()
+ewa.przedtaw_sie()
+kain.przedstaw_sie()
+kain.baw_sie()
