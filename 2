@@ -1,0 +1,10 @@
+# 1. import niezbędnych blibliotek
+from selenium import webdriver
+from time import sleep
+
+# 2. Stworzenie obiektu z gotowej klasy
+przegladarka = webdriver.Chrome()
+# 3. Wywoływanie metod na obiektach
+przegladarka.maximize_window()
+przegladarka.get("http://www.wp.pl")
+sleep(5)
