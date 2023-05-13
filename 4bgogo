@@ -1,0 +1,16 @@
+# Zaimportowanie kodu
+from selenium import webdriver
+from time import sleep
+from selenium.webdriver.common.by import By
+# Stwrz obiekt na bazie klasy
+driver = webdriver.Chrome()
+#maxymalzacja okna
+driver.maximize_window()
+# otworz strone
+driver.get("https://duckduckgo.com/")
+element = driver.find_element(By.ID, "search_form_input_homepage")
+element.click()
+element.send_keys("Czy tester na WSB jest faktycznie MERITO?")
+element.submit()
+sleep(3)
+driver.quit()
