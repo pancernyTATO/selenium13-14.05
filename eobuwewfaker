@@ -1,0 +1,53 @@
+https://codeshare.io/bv0Xvq
+
+https://topswagcode.com/xpath/
+https://flukeout.github.io/
+https://selenium-python.readthedocs.io/
+  import unittest
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from time import sleep
+from selenium.webdriver.support.relative_locator import locate_with
+from faker import Faker
+import re
+
+class RegistrationTest(unittest.TestCase):
+    def setUp(self):
+        # Otworzyć stronę eobuwie
+        self.driver = webdriver.Chrome()
+        self.driver.maximize_window()
+        self.driver.get("https://eobuwie.com.pl/")
+        # Zamknij okno cookies
+        self.driver.find_element(By.XPATH, '//button[@class="button base-button primary normal green"]').click()
+        self.driver.implicitly_wait(20)
+        self.fake = Faker("pl_PL")
+
+    def testNoCapitalLetterInPassword(self):
+        # 1. Kliknij "Załóż konto"
+        zaloz_konto_btn = self.driver.find_element(By.XPATH, '//li[@class="top-bar-item link-item"][6]/button')
+        zaloz_konto_btn.click()
+        imie_input = self.driver.find_element(By.ID, 'firstname-register')
+        imie_input.send_keys(self.fake.first_name())
+        email_input = self.driver.find_element(By.CSS_SELECTOR, "input#email-register") # XPATH //input[@id='email-register']
+        email_input.send_keys(self.fake.email())
+        password_input = self.driver.find_element(By.ID, 'password-register')
+        password_input.send_keys(re.sub("[^A-Z]", "", self.fake.password(34).lower(), 0, re.IGNORECASE))
+        # OCZEKIWANY REZULTAT
+        # Użytkownik otrzymuje informację "Wymagania: DUŻA litera, cyfra lub znak specjalny, minimum 8 znaków"
+        # pod hasłem
+
+        # 1. Szukam wszytskich komunikatów o błędzie
+        error_messages = self.driver.find_elements(By.XPATH, '//*[@class="error-msg"]')
+        # 2. Sprawdzam, czy jest tylko jeden taki komunikat
+        self.assertEqual(1, len(error_messages))
+        # 3. Sprawdzam treść i widoczność tego komunikatu "Wymagania: DUŻA litera, cyfra lub znak specjalny, minimum 8 znaków"
+        # print(error_messages[0].text)
+        self.assertEqual("Wymagania: DUŻA litera, cyfra lub znak specjalny",
+                         error_messages[0].text)
+        # 4. Srawdzam, czy ten komunikat jest pod polem "hasło"
+        error_msg_locator = locate_with(By.XPATH, '//*[@class="error-msg"]').near({By.ID : 'password-register'})
+        error_msg = self.driver.find_element(error_msg_locator)
+        # Spradzam, czy error_msg to ten sam element, co error_messages[0]
+        assert error_messages[0].id == error_msg.id
+        # Tymczasowo, aby zauwazyć co się dzieje
+        #sleep(5)
