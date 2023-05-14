@@ -1,0 +1,51 @@
+import unittest
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from time import sleep
+
+
+# Dane testowe
+imie = "Zdzichu"
+email = "Zdzichu1@gmail.com"
+password = "asdcja"
+
+class RegistrationTest(unittest.TestCase):
+    def setUp(self):
+        #otworz strone eobuwie
+        self.driver = webdriver.Chrome()
+        self.driver.maximize_window()
+        self.driver.get("http://eobuwie.com.pl")
+        self.driver.find_element(By.XPATH, '//button[@class="button base-button primary normal green"]').click() # XPATH tworzony samodzielnie
+        # self.driver.implicitly_wait(10)
+
+    def testNoCapitalLetterInPassword(self):
+        # 1.Zaloz konto
+        zaloz_konto_btn = self.driver.find_element(By.XPATH, '//li[@class="top-bar-item link-item"][6]/button')
+        zaloz_konto_btn.click()
+        self.driver.implicitly_wait(10)   #wait bo 10s bo stronka potrzebuje czasu na zaladowanie
+        imie_input = self.driver.find_element(By.ID, 'firstname-register')
+        imie_input.send_keys(imie)
+        email_input = self.driver.find_element(By.CSS_SELECTOR, "input#email-register")  # XPATH //input[@id='email-register']
+        email_input.send_keys(email)
+        password_input = self.driver.find_element(By.ID, 'password-register')
+        password_input.send_keys(password).click()
+
+        #Oczekiwany rezultat
+        #Uytkownik otrzymuje komunikat z bledem "Wymagania: DUŻA litera, cyfra lub znak specjalny, minimum 8 znaków"
+        #pod haslem
+        
+        #1. SZukam wszystkich komunikatow o bledzie
+        error_messages = self.driver.find_elements(By.XPATH, '//*[@class="error-msg"]')  # '*' - przeszukuje wszystkie typy
+        #2. sprawdam czy jest tylko jeden komunikat
+        self.assertEqual(1, len(error_messages))  #powinno byc 1, porownoje z iloscia znalezionych error_messages w #1
+        
+        #3. Sprawdzam tresc i widocznosc tego komunikatu "Wymagania: DUŻA litera, cyfra lub znak specjalny, minimum 8 znaków"
+        #print(error_messages[0].text)  #wyswietla w konsoli tekst wiadomosci bledu
+        self.assertEqual("Wymagania: DUŻA litera, cyfra lub znak specjalny, minimum 8 znaków", error_messages[0].text) #porownuje tekst z wydrukowanym tekstem
+
+        # 4. sprawdzam czy komunikat jest pod polem "haslo"  [relative locators] near lub below pola haslo
+        
+        
+        
+        # Tymczasowo, aby zauwazyć co się dzieje
+        sleep(5)
