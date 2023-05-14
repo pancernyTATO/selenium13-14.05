@@ -1,0 +1,28 @@
+import unittest
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from time import sleep
+
+# DANE TESTOWE
+imie = "Antek"
+email = "antek@omnibus.pl"
+
+class RegistrationTest(unittest.TestCase):
+    def setUp(self):
+        # Otworzyć stronę eobuwie
+        self.driver = webdriver.Chrome()
+        self.driver.maximize_window()
+        self.driver.get("https://eobuwie.com.pl/")
+        # Zamknij okno cookies
+        self.driver.find_element(By.XPATH, '//button[@class="button base-button primary normal green"]').click()
+
+    def testNoCapitalLetterInPassword(self):
+        # 1. Kliknij "Załóż konto"
+        zaloz_konto_btn = self.driver.find_element(By.XPATH, '//li[@class="top-bar-item link-item"][6]/button')
+        zaloz_konto_btn.click()
+        imie_input = self.driver.find_element(By.ID, 'firstname-register')
+        imie_input.send_keys(imie)
+        email_input = self.driver.find_element(By.CSS_SELECTOR, "input#email-register") # XPATH //input[@id='email-register']
+        email_input.send_keys(email)
+        # Tymczasowo, aby zauwazyć co się dzieje
+        sleep(5)
