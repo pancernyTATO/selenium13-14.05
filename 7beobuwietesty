@@ -47,7 +47,10 @@ class RegistrationTest(unittest.TestCase):
         # 4. sprawdzam czy komunikat jest pod polem "haslo"  [relative locators] near lub below pola haslo
 
         error_msg_locator = locate_with(By.XPATH, '//*[@class="error-msg"]').near({By.ID: 'password-register'})
-        self.driver.find_element(error_msg_locator)
+        error_msg = self.driver.find_element(error_msg_locator)
+        # Sprawdzam, czy error_msg to ten sam element, co error_messages[0]
+
+        assert error_messages[0].id == error_msg.id
 
         # Tymczasowo, aby zauwazyć co się dzieje
         sleep(5)
